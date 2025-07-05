@@ -41,7 +41,7 @@ export class TodoService {
     const newTodo: Todo = {
       id: Date.now(),
       title: todo.title,
-      diskription: todo.diskription,
+      description: todo.description,
       completed: todo.completed,
     };
     this.todos.update((current) => [...current, newTodo]);

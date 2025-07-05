@@ -5,12 +5,12 @@ import {
   effect,
   inject,
 } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Todo } from '../../interface/todo.interface';
-import { TodoService } from '../../services/todo.service';
-import { NgClass, NgIf } from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Todo} from '../../interface/todo.interface';
+import {TodoService} from '../../services/todo.service';
+import {NgClass, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-todo-card',
@@ -31,14 +31,13 @@ export class TodoCardComponent {
   constructor() {
     this.route.paramMap.subscribe((params) => {
       this.taskId = Number(params.get('id'));
-      const getTask = this.todos().find((t) => t.id === this.taskId);
     });
-    effect(() => {
+    effect((): void => {
       this.task = this.todos().find((t) => t.id === this.taskId);
     });
   }
 
-  onRedirectHome() {
+  onRedirectHome(): void {
     this.router.navigate(['']);
   }
 }

@@ -40,7 +40,7 @@ export class CreateTodoDialogComponent {
       Validators.required,
       Validators.minLength(5),
     ]),
-    diskription: new FormControl(''),
+    description: new FormControl(null),
     completed: new FormControl(false),
   });
 }

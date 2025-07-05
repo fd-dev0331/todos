@@ -41,7 +41,7 @@ export class EditTodoDialogComponent {
       Validators.required,
       Validators.minLength(5),
     ]),
-    diskription: new FormControl(this.createTodoData.diskription),
+    description: new FormControl(this.createTodoData.description),
     completed: new FormControl(this.createTodoData.completed),
   });
 }
