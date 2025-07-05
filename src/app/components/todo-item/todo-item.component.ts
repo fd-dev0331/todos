@@ -5,16 +5,16 @@ import {
   Input,
   signal,
 } from '@angular/core';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormsModule } from '@angular/forms';
-import { TodoService } from '../../services/todo.service';
-import { Todo } from '../../interface/todo.interface';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
-import { DeleteTodoDialogComponent } from '../delete-todo-dialog/delete-todo-dialog.component';
-import { EditTodoDialogComponent } from '../edit-todo-dialog/edit-todo-dialog.component';
-import { Router } from '@angular/router';
-import { ShortTitle } from '../../pipes/short-title.pipe';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {FormsModule} from '@angular/forms';
+import {TodoService} from '../../services/todo.service';
+import {Todo} from '../../interface/todo.interface';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialog} from '@angular/material/dialog';
+import {DeleteTodoDialogComponent} from '../delete-todo-dialog/delete-todo-dialog.component';
+import {Router} from '@angular/router';
+import {ShortTitle} from '../../pipes/short-title.pipe';
+import {CreateTodoDialogComponent} from '../create-todo-dialog/create-todo-dialog.component';
 
 @Component({
   selector: 'app-todo-item',
@@ -28,12 +28,12 @@ export class TodoItemComponent {
   @Input() todo!: Todo;
 
   private todoService = inject(TodoService);
-  readonly status = signal<boolean>(false);
   private dialog = inject(MatDialog);
-  private id = signal<number>(0);
   private readonly router = inject(Router);
+  readonly status = signal<boolean>(false);
+  private id = signal<number>(0);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.status.set(this.todo.completed);
     this.id.set(this.todo.id);
   }
@@ -47,14 +47,12 @@ export class TodoItemComponent {
     this.todoService.editeTodo(changedTodo);
   }
 
-  onItemDelete(item: number): void {
+  onTodoDelete(): void {
     const dialogRef = this.dialog.open(DeleteTodoDialogComponent, {
       data: this.todo,
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined && result !== '') {
-        this.todoService.deleteTodo(item);
-      }
+    dialogRef.afterClosed().subscribe((id: number): void => {
+      this.todoService.deleteTodo(id);
     });
   }
 
@@ -63,17 +61,18 @@ export class TodoItemComponent {
   }
 
   onTodoEdite(): void {
-    const dialogRef = this.dialog.open(EditTodoDialogComponent, {
-      data: this.todo,
+    const dialogRef = this.dialog.open(CreateTodoDialogComponent, {
+      data: {
+        todo: this.todo,
+        isEditMode: true,
+      },
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined && result !== '') {
-        const editedTodo = {
-          ...result,
-          id: this.id(),
-        };
-        this.todoService.editeTodo(editedTodo);
-      }
+    dialogRef.afterClosed().subscribe((editTodo) => {
+      const editedTodo = {
+        ...editTodo,
+        id: this.id(),
+      };
+      this.todoService.editeTodo(editedTodo);
     });
   }
 }

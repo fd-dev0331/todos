@@ -5,9 +5,9 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { Todo } from '../interface/todo.interface';
+import {Todo} from '../interface/todo.interface';
 import * as localForage from 'localforage';
-import { isPlatformBrowser } from '@angular/common';
+import {isPlatformBrowser} from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -37,28 +37,34 @@ export class TodoService {
     }
   }
 
-  async addTodo(todo: Todo): Promise<void> {
-    const newTodo: Todo = {
-      id: Date.now(),
-      title: todo.title,
-      description: todo.description,
-      completed: todo.completed,
-    };
-    this.todos.update((current) => [...current, newTodo]);
-    await this.saveTodos();
+  async createTodo(todo: Todo): Promise<void> {
+    if (todo) {
+      const newTodo: Todo = {
+        id: Date.now(),
+        title: todo.title,
+        description: todo.description,
+        completed: todo.completed,
+      };
+      this.todos.update((current) => [...current, newTodo]);
+      await this.saveTodos();
+    }
   }
 
-  async editeTodo(newTodo: Todo): Promise<void> {
-    this.todos.update((todos) =>
-      todos.map((todo) =>
-        todo.id === newTodo.id ? { ...todo, ...newTodo } : todo
-      )
-    );
-    await this.saveTodos();
+  async editeTodo(editedTodo: Todo): Promise<void> {
+    if (editedTodo) {
+      this.todos.update((todos) =>
+        todos.map((todo) =>
+          todo.id === editedTodo.id ? {...todo, ...editedTodo} : todo
+        )
+      );
+      await this.saveTodos();
+    }
   }
 
   async deleteTodo(id: number) {
-    this.todos.update((todos) => todos.filter((todo) => todo.id !== id));
-    await this.saveTodos();
+    if (id) {
+      this.todos.update((todos) => todos.filter((todo) => todo.id !== id));
+      await this.saveTodos();
+    }
   }
 }

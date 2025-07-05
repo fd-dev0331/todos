@@ -17,11 +17,14 @@ export class HeaderComponent {
   todoService = inject(TodoService);
 
   onCreateTodo(): void {
-    const dialogRef = this.dialog.open(CreateTodoDialogComponent, {});
+    const dialogRef = this.dialog.open(CreateTodoDialogComponent, {
+      data: {
+        todo: {},
+        isEditMode: false,
+      },
+    });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result !== undefined && result !== '') {
-        this.todoService.addTodo(result);
-      }
+      this.todoService.createTodo(result);
     });
   }
 }
