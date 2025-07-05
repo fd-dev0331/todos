@@ -5,8 +5,8 @@
       <h4>
         Title:<span>{{ task?.title }}</span>
       </h4>
-      <p *ngIf="task?.diskription">
-        <span> Diskription:</span> {{ task?.diskription }}
+      <p *ngIf="task?.description">
+        <span> Description:</span> {{ task?.description }}
       </p>
       <span class="status">
         <mat-icon [ngClass]="{ yes: task?.completed, no: !task?.completed }">{{

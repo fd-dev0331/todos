@@ -14,10 +14,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteTodoDialogComponent } from '../delete-todo-dialog/delete-todo-dialog.component';
 import { EditTodoDialogComponent } from '../edit-todo-dialog/edit-todo-dialog.component';
 import { Router } from '@angular/router';
+import { ShortTitle } from '../../pipes/short-title.pipe';
 
 @Component({
   selector: 'app-todo-item',
-  imports: [MatCheckboxModule, FormsModule, MatButtonModule],
+  imports: [MatCheckboxModule, FormsModule, MatButtonModule, ShortTitle],
   templateUrl: './todo-item.component.html',
   styleUrl: './todo-item.component.scss',
   standalone: true,
@@ -37,7 +38,7 @@ export class TodoItemComponent {
     this.id.set(this.todo.id);
   }
 
-  changeStatus(newValue: boolean) {
+  changeStatus(newValue: boolean): void {
     const changedTodo: Todo = {
       ...this.todo,
       completed: newValue,
@@ -46,7 +47,7 @@ export class TodoItemComponent {
     this.todoService.editeTodo(changedTodo);
   }
 
-  onItemDelete(item: number) {
+  onItemDelete(item: number): void {
     const dialogRef = this.dialog.open(DeleteTodoDialogComponent, {
       data: this.todo,
     });
@@ -57,11 +58,11 @@ export class TodoItemComponent {
     });
   }
 
-  onOpenDetail(todo: Todo) {
+  onOpenDetail(): void {
     this.router.navigate(['/task', this.todo.id]);
   }
 
-  onTodoEdite() {
+  onTodoEdite(): void {
     const dialogRef = this.dialog.open(EditTodoDialogComponent, {
       data: this.todo,
     });

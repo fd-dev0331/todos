@@ -1,5 +1,5 @@
 export interface EditedTodo {
   title: string;
-  diskription: string;
+  description: string;
   completed: boolean;
 }
