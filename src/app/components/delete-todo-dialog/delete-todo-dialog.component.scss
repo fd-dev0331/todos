@@ -1,0 +1,15 @@
+.item-delete {
+  padding: 10px;
+  h4 {
+    font-weight: 400;
+    span {
+      font-weight: 700;
+    }
+  }
+}
+
+.buttons-block {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}

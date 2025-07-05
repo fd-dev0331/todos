@@ -1,0 +1,21 @@
+<form action="" [formGroup]="createTodo" class="create-todo">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Diskription</mat-label>
+    <textarea matInput formControlName="diskription"></textarea>
+  </mat-form-field>
+  <mat-checkbox formControlName="completed">Completed ?</mat-checkbox>
+  <div class="buttons">
+    <button
+      mat-flat-button
+      [mat-dialog-close]="createTodo.value"
+      [disabled]="createTodo.invalid"
+    >
+      Create
+    </button>
+    <button mat-flat-button mat-dialog-close>Cancel</button>
+  </div>
+</form>

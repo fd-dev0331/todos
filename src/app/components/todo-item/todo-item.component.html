@@ -1,0 +1,18 @@
+<script src="todo-item.component.ts"></script>
+<span class="item">
+  <div class="item-content">
+    <mat-checkbox
+      [checked]="status()"
+      (change)="changeStatus($event.checked)"
+    ></mat-checkbox>
+    <h4>
+      Title: <span> {{ todo.title }}</span>
+    </h4>
+    <p class="item-details"><span>Details:</span> {{ todo.diskription }}</p>
+  </div>
+  <div class="item-control">
+    <button mat-flat-button (click)="onOpenDetail(todo)">Detail</button>
+    <button mat-flat-button (click)="onTodoEdite()">Edit</button>
+    <button mat-flat-button (click)="onItemDelete(todo.id)">Delete</button>
+  </div>
+</span>

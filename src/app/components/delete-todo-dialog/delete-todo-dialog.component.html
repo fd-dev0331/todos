@@ -1,0 +1,9 @@
+<div class="item-delete">
+  <h4>
+    Are you sure you want to delete the task <span>{{ todo.title }} </span>?
+  </h4>
+  <div class="buttons-block">
+    <button mat-flat-button [mat-dialog-close]="todo.id">Delete ?</button>
+    <button mat-flat-button mat-dialog-close>Cancel</button>
+  </div>
+</div>

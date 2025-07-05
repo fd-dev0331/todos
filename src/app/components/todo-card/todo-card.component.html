@@ -1,0 +1,19 @@
+<div class="task-card">
+  <div class="container">
+    <mat-icon class="back" (click)="onRedirectHome()">arrow_back</mat-icon>
+    <div class="card">
+      <h4>
+        Title:<span>{{ task?.title }}</span>
+      </h4>
+      <p *ngIf="task?.diskription">
+        <span> Diskription:</span> {{ task?.diskription }}
+      </p>
+      <span class="status">
+        <mat-icon [ngClass]="{ yes: task?.completed, no: !task?.completed }">{{
+          task?.completed ? "check" : "close"
+        }}</mat-icon>
+        {{ task?.completed ? "Completed" : "Not completed" }}
+      </span>
+    </div>
+  </div>
+</div>
