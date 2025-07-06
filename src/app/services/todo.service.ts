@@ -46,7 +46,6 @@ export class TodoService {
     };
     this.todos.update((current) => [...current, newTodo]);
     await this.saveTodos();
-    console.log('service', newTodo)
   }
 
   async editeTodo(editedTodo: Todo): Promise<void> {
