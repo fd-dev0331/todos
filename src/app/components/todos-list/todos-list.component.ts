@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TodoItemComponent } from '../todo-item/todo-item.component';
-import { NgFor, NgIf } from '@angular/common';
-import { TodoService } from '../../services/todo.service';
+import {ChangeDetectionStrategy, Component, inject, Signal} from '@angular/core';
+import {TodoItemComponent} from '../todo-item/todo-item.component';
+import {NgFor, NgIf} from '@angular/common';
+import {TodoService} from '../../services/todo.service';
 
 @Component({
   selector: 'app-todos-list',

@@ -3,6 +3,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {CreateTodoDialogComponent} from '../create-todo-dialog/create-todo-dialog.component';
 import {TodoService} from '../../services/todo.service';
+import {Todo} from '../../interface/todo';
+import {filter, tap} from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,8 +15,8 @@ import {TodoService} from '../../services/todo.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  dialog = inject(MatDialog);
-  todoService = inject(TodoService);
+  dialog: MatDialog = inject(MatDialog);
+  todoService: TodoService = inject(TodoService);
 
   onCreateTodo(): void {
     const dialogRef = this.dialog.open(CreateTodoDialogComponent, {
@@ -23,8 +25,11 @@ export class HeaderComponent {
         isEditMode: false,
       },
     });
-    dialogRef.afterClosed().subscribe((result) => {
-      this.todoService.createTodo(result);
-    });
+    dialogRef.afterClosed().pipe(
+      filter((cretedTodo: Todo) => !!cretedTodo && Object.keys(cretedTodo).length > 0),
+      tap(creatingTodo => {
+        this.todoService.createTodo(creatingTodo)
+      })
+    ).subscribe();
   }
 }

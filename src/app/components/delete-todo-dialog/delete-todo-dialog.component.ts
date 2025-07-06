@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {MatButtonModule} from '@angular/material/button';
+import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
+import {Todo} from '../../interface/todo';
 
 @Component({
   selector: 'app-delete-todo-dialog',
@@ -11,5 +12,5 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteTodoDialogComponent {
-  public todo = inject(MAT_DIALOG_DATA);
+  public todo: Todo = inject(MAT_DIALOG_DATA);
 }

@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Todo} from '../../interface/todo.interface';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {Todo} from '../../interface/todo';
 import {TodoService} from '../../services/todo.service';
 import {NgClass, NgIf} from '@angular/common';
 
@@ -25,15 +25,15 @@ export class TodoCardComponent {
   private readonly route = inject(ActivatedRoute);
   private todoService = inject(TodoService);
   public readonly todos = computed(() => this.todoService.todos$());
-  taskId!: number;
-  public task!: Todo | undefined;
+  todoId!: number;
+  public todo!: Todo | undefined;
 
   constructor() {
-    this.route.paramMap.subscribe((params) => {
-      this.taskId = Number(params.get('id'));
+    this.route.paramMap.subscribe((params: ParamMap): void => {
+      this.todoId = Number(params.get('id'));
     });
     effect((): void => {
-      this.task = this.todos().find((t) => t.id === this.taskId);
+      this.todo = this.todos().find((t: Todo): boolean => t.id === this.todoId);
     });
   }
 

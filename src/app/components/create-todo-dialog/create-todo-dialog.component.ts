@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal, WritableSignal} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -10,12 +10,11 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {
   MAT_DIALOG_DATA,
   MatDialogClose,
-  MatDialogRef,
 } from '@angular/material/dialog';
 import {MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {NgIf} from '@angular/common';
-import {Todo} from '../../interface/todo.interface';
+import {Todo} from '../../interface/todo';
+import {TodoData} from '../../interface/todoData';
 
 @Component({
   selector: 'app-create-todo-dialog',
@@ -28,24 +27,21 @@ import {Todo} from '../../interface/todo.interface';
     MatInputModule,
     MatButtonModule,
     MatDialogClose,
-    NgIf
   ],
   templateUrl: './create-todo-dialog.component.html',
   styleUrl: './create-todo-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateTodoDialogComponent {
-  public readonly todoData = inject(MAT_DIALOG_DATA);
-  public isEditMode = signal<boolean>(false);
+  public readonly todoData: TodoData = inject(MAT_DIALOG_DATA);
+  public isEditMode: WritableSignal<boolean> = signal<boolean>(false);
   private readonly todo: Todo = this.todoData.todo;
 
   constructor() {
-    this.isEditMode.update((mode) => mode = this.todoData.isEditMode);
-    // this.isEditMode = this.todoData.isEditMode;
-    console.log('test', this.isEditMode())
+    this.isEditMode.update((mode: boolean): boolean => mode = this.todoData.isEditMode);
   }
 
-  public createTodo = new FormGroup({
+  public createTodo: FormGroup = new FormGroup({
     title: new FormControl(this.todo.title, [
       Validators.required,
       Validators.minLength(5),

@@ -3,18 +3,20 @@ import {
   Component,
   inject,
   Input,
-  signal,
+  signal, WritableSignal,
 } from '@angular/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {FormsModule} from '@angular/forms';
 import {TodoService} from '../../services/todo.service';
-import {Todo} from '../../interface/todo.interface';
+import {Todo} from '../../interface/todo';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {DeleteTodoDialogComponent} from '../delete-todo-dialog/delete-todo-dialog.component';
 import {Router} from '@angular/router';
 import {ShortTitle} from '../../pipes/short-title.pipe';
 import {CreateTodoDialogComponent} from '../create-todo-dialog/create-todo-dialog.component';
+import {filter, tap} from 'rxjs';
+import {EditedTodo} from '../../interface/editedTodo';
 
 @Component({
   selector: 'app-todo-item',
@@ -31,19 +33,19 @@ export class TodoItemComponent {
   private dialog = inject(MatDialog);
   private readonly router = inject(Router);
   readonly status = signal<boolean>(false);
-  private id = signal<number>(0);
+  private id: WritableSignal<number> = signal<number>(0);
 
   ngOnInit(): void {
     this.status.set(this.todo.completed);
     this.id.set(this.todo.id);
   }
 
-  changeStatus(newValue: boolean): void {
+  changeStatus(newStatus: boolean): void {
     const changedTodo: Todo = {
       ...this.todo,
-      completed: newValue,
+      completed: newStatus,
     };
-    this.status.set(newValue);
+    this.status.set(newStatus);
     this.todoService.editeTodo(changedTodo);
   }
 
@@ -67,12 +69,13 @@ export class TodoItemComponent {
         isEditMode: true,
       },
     });
-    dialogRef.afterClosed().subscribe((editTodo) => {
-      const editedTodo = {
-        ...editTodo,
-        id: this.id(),
-      };
-      this.todoService.editeTodo(editedTodo);
-    });
+    dialogRef.afterClosed().pipe(
+      filter((editedTodo: EditedTodo) => !!editedTodo && Object.keys(editedTodo).length > 0),
+      tap(editingTodo => {
+        const updated: Todo = {...editingTodo, id: this.todo.id};
+        this.todoService.editeTodo(updated);
+      })
+    ).subscribe();
   }
 }
+

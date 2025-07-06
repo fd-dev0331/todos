@@ -5,7 +5,7 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import {Todo} from '../interface/todo.interface';
+import {Todo} from '../interface/todo';
 import * as localForage from 'localforage';
 import {isPlatformBrowser} from '@angular/common';
 
@@ -38,27 +38,24 @@ export class TodoService {
   }
 
   async createTodo(todo: Todo): Promise<void> {
-    if (todo) {
-      const newTodo: Todo = {
-        id: Date.now(),
-        title: todo.title,
-        description: todo.description,
-        completed: todo.completed,
-      };
-      this.todos.update((current) => [...current, newTodo]);
-      await this.saveTodos();
-    }
+    const newTodo: Todo = {
+      id: Date.now(),
+      title: todo.title,
+      description: todo.description,
+      completed: todo.completed,
+    };
+    this.todos.update((current) => [...current, newTodo]);
+    await this.saveTodos();
+    console.log('service', newTodo)
   }
 
   async editeTodo(editedTodo: Todo): Promise<void> {
-    if (editedTodo) {
-      this.todos.update((todos) =>
-        todos.map((todo) =>
-          todo.id === editedTodo.id ? {...todo, ...editedTodo} : todo
-        )
-      );
-      await this.saveTodos();
-    }
+    this.todos.update((todos) =>
+      todos.map((todo) =>
+        todo.id === editedTodo.id ? {...todo, ...editedTodo} : todo
+      )
+    );
+    await this.saveTodos();
   }
 
   async deleteTodo(id: number) {

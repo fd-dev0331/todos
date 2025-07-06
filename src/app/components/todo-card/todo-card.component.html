@@ -1,18 +1,18 @@
-<div class="task-card">
+<div class="todo-card">
   <div class="container">
     <mat-icon class="back" (click)="onRedirectHome()">arrow_back</mat-icon>
     <div class="card">
       <h4>
-        Title:<span>{{ task?.title }}</span>
+        Title:<span>{{ todo?.title }}</span>
       </h4>
-      <p *ngIf="task?.description">
-        <span> Description:</span> {{ task?.description }}
+      <p *ngIf="todo?.description">
+        <span> Description:</span> {{ todo?.description }}
       </p>
       <span class="status">
-        <mat-icon [ngClass]="{ yes: task?.completed, no: !task?.completed }">{{
-          task?.completed ? "check" : "close"
-        }}</mat-icon>
-        {{ task?.completed ? "Completed" : "Not completed" }}
+        <mat-icon [ngClass]="{ yes: todo?.completed, no: !todo?.completed }">{{
+            todo?.completed ? "check" : "close"
+          }}</mat-icon>
+        {{ todo?.completed ? "Completed" : "Not completed" }}
       </span>
     </div>
   </div>
